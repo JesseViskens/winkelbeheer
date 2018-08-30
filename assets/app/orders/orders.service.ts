@@ -24,7 +24,7 @@ export class OrdersService {
         this.orders.push(order);
         const body = JSON.stringify(order);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://localhost:3000/order', body, {headers: headers})
+        return this.http.post('https://winkelbeheer.herokuapp.com/order', body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error))
     };
@@ -34,13 +34,13 @@ export class OrdersService {
         this.orderitems.push(orderitem);
         const body = JSON.stringify(orderitem);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://localhost:3000/orderitems', body, {headers: headers})
+        return this.http.post('https://winkelbeheer.herokuapp.com/orderitems', body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error))
     };
 
     getOrders() {
-        return this.http.get('http://localhost:3000/order')
+        return this.http.get('https://winkelbeheer.herokuapp.com/order')
             .map((response: Response) => {
                 const orders = response.json().obj;
                 let transformedOrders: Order[] = [];
@@ -62,7 +62,7 @@ export class OrdersService {
     };
 
     getOrderItems() {
-        return this.http.get('http://localhost:3000/orderitems')
+        return this.http.get('https://winkelbeheer.herokuapp.com/orderitems')
             .map((response: Response) => {
                 const orderitems = response.json().obj;
                 let transformedorderItems: Orderitem[] = [];
@@ -87,7 +87,7 @@ export class OrdersService {
         const body = JSON.stringify(order);
         console.log(order);
         const headers = new Headers({'Content-Type' : 'application/json'});
-        return this.http.put('http://localhost:3000/order/' + order.id, body, {headers: headers})
+        return this.http.put('https://winkelbeheer.herokuapp.com/order/' + order.id, body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
@@ -95,20 +95,20 @@ export class OrdersService {
         console.log(orderitem);
         const body = JSON.stringify(orderitem);
         const headers = new Headers({'Content-Type' : 'application/json'});
-        return this.http.put('http://localhost:3000/orderitems/' + orderitem.id, body, {headers: headers})
+        return this.http.put('https://winkelbeheer.herokuapp.com/orderitems/' + orderitem.id, body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
     deleteOrder(order: Order){
         console.log(order.id + "service");
-        console.log('http://localhost:3000/order/' + order.id);
-        return this.http.delete('http://localhost:3000/order/' + order.id)
+        console.log('https://winkelbeheer.herokuapp.com/order/' + order.id);
+        return this.http.delete('https://winkelbeheer.herokuapp.com/order/' + order.id)
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error.json()))
     }
     deleteOrderItem(orderitem: Orderitem){
         this.orderitems.splice(this.orderitems.indexOf(orderitem),orderitem.aantal);
-        return this.http.delete('http://localhost:3000/orderitems/' + orderitem.id)
+        return this.http.delete('https://winkelbeheer.herokuapp.com/orderitems/' + orderitem.id)
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error.json()))
     }

@@ -18,14 +18,14 @@ export class StockService {
         console.log( product + "service");
         console.log("jippie hopelijk---------------------------" + product.naam);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://localhost:3000/stock', body, {headers: headers})
+        return this.http.post('https://winkelbeheer.herokuapp.com/stock', body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error))
     };
 
     getProducten() {
         console.log("service");
-        return this.http.get('http://localhost:3000/stock/')
+        return this.http.get('https://winkelbeheer.herokuapp.com/stock/')
             .map((response: Response) => {
                 const producten = response.json().obj;
                 let transformedStock: Product[] = [];
@@ -40,7 +40,7 @@ export class StockService {
 
     deleteProduct(product: Product){
             this.producten.splice(this.producten.indexOf(product),1);
-            return this.http.delete('http://localhost:3000/stocks/' + product.id)
+            return this.http.delete('https://winkelbeheer.herokuapp.com/stocks/' + product.id)
                 .map((response: Response) => response.json())
                 .catch((error:Response) => Observable.throw(error.json()))
     }
@@ -49,7 +49,7 @@ export class StockService {
         const body = JSON.stringify(product);
         console.log(product.id);
         const headers = new Headers({'Content-Type' : 'application/json'})
-        return this.http.put('http://localhost:3000/stocks/' + product.id, body, {headers: headers})
+        return this.http.put('https://winkelbeheer.herokuapp.com/stocks/' + product.id, body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }

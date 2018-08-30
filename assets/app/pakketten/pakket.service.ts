@@ -21,7 +21,7 @@ export class PakketService {
         this.pakketten.push(pakket);
         const body = JSON.stringify(pakket);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://localhost:3000/pakket', body, {headers: headers})
+        return this.http.post('https://winkelbeheer.herokuapp.com/pakket', body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error))
     };
@@ -31,13 +31,13 @@ export class PakketService {
         this.pakketitems.push(pakketitem);
         const body = JSON.stringify(pakketitem);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://localhost:3000/pakketitems', body, {headers: headers})
+        return this.http.post('https://winkelbeheer.herokuapp.com/pakketitems', body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error))
     };
 
     getPakketten() {
-        return this.http.get('http://localhost:3000/pakket')
+        return this.http.get('https://winkelbeheer.herokuapp.com/pakket')
             .map((response: Response) => {
                 const pakketten = response.json().obj;
                 let transformedPakketten: Pakket[] = [];
@@ -51,7 +51,7 @@ export class PakketService {
     };
 
     getPakketItems() {
-        return this.http.get('http://localhost:3000/pakketitems')
+        return this.http.get('https://winkelbeheer.herokuapp.com/pakketitems')
             .map((response: Response) => {
                 const pakketitems = response.json().obj;
                 let transformedpakketItems: Pakketitem[] = [];
@@ -70,7 +70,7 @@ export class PakketService {
         console.log(pakket.id +"hieeeeer");
         console.log(pakket);
         const headers = new Headers({'Content-Type' : 'application/json'});
-        return this.http.put('http://localhost:3000/pakket/' + pakket.id, body, {headers: headers})
+        return this.http.put('https://winkelbeheer.herokuapp.com/pakket/' + pakket.id, body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
@@ -79,7 +79,7 @@ export class PakketService {
         console.log(pakketItem);
         const body = JSON.stringify(pakketItem);
         const headers = new Headers({'Content-Type' : 'application/json'});
-        return this.http.put('http://localhost:3000/pakketitems/' + pakketItem.id, body, {headers: headers})
+        return this.http.put('https://winkelbeheer.herokuapp.com/pakketitems/' + pakketItem.id, body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
@@ -87,7 +87,7 @@ export class PakketService {
     deletePakket(pakket: Pakket){
         console.log(pakket.id + "service");
         console.log('http://localhost:3000/pakket/' + pakket.id);
-        return this.http.delete('http://localhost:3000/pakket/' + pakket.id)
+        return this.http.delete('https://winkelbeheer.herokuapp.com/pakket/' + pakket.id)
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error.json()))
     }
@@ -95,13 +95,13 @@ export class PakketService {
     deletePakketItem(pakketItem: Pakketitem){
         this.pakketitems.splice(this.pakketitems.indexOf(pakketItem),pakketItem.aantal);
         console.log(pakketItem.id);
-        return this.http.delete('http://localhost:3000/pakketitems/' + pakketItem.id)
+        return this.http.delete('https://winkelbeheer.herokuapp.com/pakketitems/' + pakketItem.id)
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error.json()))
     }
     getPakket(pakket: Pakket) {
-        console.log("service : "+'http://localhost:3000/pakket/' + pakket.id);
-        return this.http.get('http://localhost:3000/pakket/' + pakket.id)
+        console.log("service : "+'https://winkelbeheer.herokuapp.com/pakket/' + pakket.id);
+        return this.http.get('https://winkelbeheer.herokuapp.com/pakket/' + pakket.id)
             .map((response: Response) => {
                 const klant = response.json().obj;
                 return klant;
