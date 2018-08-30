@@ -1,0 +1,83 @@
+<h1>Maak nieuw pakket aan</h1>
+<form (ngSubmit)="savePakket(ngForm)" #ngForm="ngForm" ngNativeValidate>
+    <div class="form-row">
+        <div class="col">
+            <label for="naam">pakketnaam</label>
+            <input type="text"
+                   id="naam"
+                   [ngModel]="pakket?.naam"
+                   class="form-control"
+                   name="naam"
+                   required>
+        </div>
+        <div class="col">
+            <label for="totaalprijs">Vraagprijs</label>
+            <input type="number"
+                   id="totaalprijs"
+                   pattern="[0-9]+([\.,][0-9]+)?"
+                   step="0.01"
+                   [ngModel]="pakket?.totaalprijs"
+                   class="form-control"
+                   name="totaalprijs"
+                   required>
+        </div>
+        <div class="col">
+            <label for="korting">korting</label>
+            <input type="number"
+                   id="korting"
+                   step="1"
+                   [ngModel]="pakket?.korting"
+                   class="form-control"
+                   name="korting"
+                   required>
+        </div>
+        <div class="col">
+            <label>Opslaan pakket</label><br>
+            <button type="submit" class="btn btn-outline-success float-right">Voeg toe</button>
+        </div>
+    </div>
+</form>
+<div>
+    <form #f="ngForm" ngNativeValidate>
+        <div class="form-row">
+            <div class="col">
+                <label for="pakketItem">Product</label>
+                <select id="pakketItem"
+                        name="pakketItem"
+                        [ngModel]="stock"
+                        class="btn dropdown-toggle "
+                        data-style="border: 1px solid black">
+                    <option *ngFor="let item of stock" [ngValue]="item.naam">{{item.naam}}</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="aantal">Aantal</label>
+                <input type="number"
+                       id="aantal"
+                       step="1"
+                       [ngModel]="pakketitem?.aantal"
+                       class="form-control"
+                       name="aantal"
+                       required>
+            </div>
+            <div class="col">
+                <label>Opslaan</label><br>
+                <a (click)="savePakketItem(f)">voeg toe</a>
+            </div>
+        </div>
+    </form>
+
+
+    <table>
+        <tr>
+            <th>Pakket ID</th>
+            <th>Naam</th>
+            <th>Aantal</th>
+        </tr>
+        <tr *ngFor="let pakketItem of pakketItemsFilter">
+            <td>{{pakketItem.pakketid}}</td>
+            <td>{{pakketItem.naam}}</td>
+            <td>{{pakketItem.aantal}}</td>
+        </tr>
+    </table>
+</div>

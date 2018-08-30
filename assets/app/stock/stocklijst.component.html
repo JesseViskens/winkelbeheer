@@ -1,0 +1,120 @@
+<div class="container ">
+    <div>
+        <table class="table">
+            <thead>
+            <th>#</th>
+            <th>Naam</th>
+            <th>Prijs per stuk</th>
+            <th>Aantal stuks</th>
+            <th>Bewerk dit product</th>
+            <th>Verwijder dit product</th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of producten">
+                <td>{{product.id}}</td>
+                <td>{{product.naam}}</td>
+                <td>{{product.individueleprijs}}€</td>
+                <td>{{product.stuks}}</td>
+                <td><button class="btn btn-warning" (click)="showEditModal(product)">Edit</button></td>
+                <td><button class="btn btn-danger"(click)="showverwijderModal(product)">verwijder</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div bsModal #editModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myeditModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Product bewerken</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideEditModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="onEdit(ngForm)" #ngForm="ngForm" ngNativeValidate>
+                    <div class="form-group">
+                        <input type="hidden"
+                               id="id"
+                               [ngModel]="product?.id"
+                               class="form-control"
+                               name="id"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="naamEdit">Productnaam: </label>
+                        <input type="text"
+                               id="naamEdit"
+                               [ngModel]="product?.naam"
+                               class="form-control"
+                               placeholder="bv. kippenbouten"
+                               name="naam"
+                               required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="stuksEdit">Aantal in vooraad:</label>
+                        <input type="number"
+                               id="stuksEdit"
+                               [ngModel]="product?.stuks"
+                               class="form-control"
+                               placeholder="bv. 12"
+                               min="0"
+                               name="stuks"
+                               required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="individueleprijsEdit">Eenheidsprijs (in euro):</label>
+                        <input type="number"
+                               id="individueleprijsEdit"
+                               [ngModel]="product?.individueleprijs"
+                               placeholder="bv. 9.52"
+                               min="0"
+                               class="form-control"
+                               name="individueleprijs"
+                               step=".01"
+                               required/>
+                    </div>
+                    <button class="float-left btn btn-primary" (click)="hideEditModal()">Annuleer</button>
+                    <button type="submit" class="btn btn-outline-success float-right">Sla op</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #helpModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myHelpModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Help</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideHelpModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Indien er zaken zijn die niet duidelijk zijn kan je ze hier terug vinden</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #verwijderModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myverwijderModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Opgelet!</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideverwijderModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label>Bent u zeker dat u dit wilt verwijderen? </label>
+                <label><i>Opgelet: Na dat u op verwijder gedrukt hebt is er geen weg terug en moet u dit product opnieuw aanmaken.</i></label>
+            </div>
+            <div class="modal-footer">
+                <button class="float-left btn btn-primary" (click)="hideverwijderModal()">Annuleer</button>
+                <button class="float-right btn btn-danger" (click)="onDelete(product)">Verwijder</button>
+            </div>
+        </div>
+    </div>
+</div>

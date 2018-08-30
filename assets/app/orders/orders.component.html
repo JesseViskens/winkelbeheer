@@ -1,0 +1,198 @@
+<div class="container ">
+    <h2>bestellingen</h2>
+    <div class="row">
+        <button class="btn btn-primary col-lg-3"[routerLink]="['/neworder']">Voeg nieuwe bestelling toe +</button>
+        <a class="offset-1" (click)="showHelpModal()"><i class="btn btn-warning float-right">i</i></a>
+
+
+    </div>
+    <br/>
+    <h1>Todo:</h1>
+    <table class="table">
+        <thead>
+        <th>naam van de besteller:</th>
+        <th>Tegen: (datum)</th>
+        <th>BetaalStatus:</th>
+        <th>Details:</th>
+        <th>Bewerk:</th>
+        <th>Is afgewerkt:</th>
+        </thead>
+        <tr *ngFor="let item of ordersFilterTodo">
+            <td>{{item.besteller}}</td>
+            <td>{{item.datum}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="changebetaalstatus(item)">
+                    <div *ngIf="item.betaalstatus == true;then welbetaald else nietbetaald"></div>
+                    <ng-template #welbetaald>Betaald</ng-template>
+                    <ng-template #nietbetaald>Niet betaald</ng-template>
+                </button>
+            </td>
+            <td><button class="btn btn-primary" (click)="showdetailModal(item)">Details</button></td>
+            <td><button class="btn btn-primary" (click)="showbewerkModal(item)">Bewerk</button></td>
+            <td><button class="btn btn-primary" (click)="changeState(item)" >Afgewerkt</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <h1>Afgewerkt:</h1>
+    <table class="table">
+        <thead>
+        <th>#</th>
+        <th>naam van de besteller:</th>
+        <th>Tegen: (datum)</th>
+        <th>Betaalstatus:</th>
+        <th>Details:</th>
+        <th>Bewerk:</th>
+
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of ordersFilterDone">
+            <td></td>
+            <td>{{item.besteller}}</td>
+            <td>{{item.datum}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="changebetaalstatus(item)">
+                    <div *ngIf="item.betaalstatus == true;then welbetaald else nietbetaald"></div>
+                    <ng-template #welbetaald>Betaald</ng-template>
+                    <ng-template #nietbetaald>Niet betaald</ng-template>
+                </button>
+            </td>
+            <td><button class="btn btn-primary" (click)="showdetailModal(item)">Details</button></td>
+            <td><button class="btn btn-primary" (click)="showbewerkModal(item)">Bewerk</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div bsModal #helpModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myHelpModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Help</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideHelpModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Indien er zaken zijn die niet duidelijk zijn kan je ze hier terug vinden</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #detailModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mydetailModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Details van de bestelling</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hidedetailModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                    <th>#</th>
+                    <th>Naam product</th>
+                    <th>Aantal</th>
+                    <th>Eenheidsprijs</th>
+                    <th>Totaalprijs</th>
+                    <th>verwijder</th>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let orderitem of orderFilter">
+                        <td></td>
+                        <td>{{orderitem.naam}}</td>
+                        <td>{{orderitem.aantal}}</td>
+                        <td>{{orderitem.eenheidsprijs}}€</td>
+                        <td>{{orderitem.totaalprijs}}€</td>
+                        <td><button class="btn btn-primary" (click)="onDeletePakketItem(orderitem)">x</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <button class="btn btn-primary float-right" (click)="hidedetailModal()">ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #bewerkModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myBewerkModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bewerk bestelling</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hidebewerkModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #f="ngForm" ngNativeValidate>
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="hidden"
+                                   [ngModel]="order?.id"
+                                   class="form-control"
+                                   name="id"
+                                   required>
+                        </div>
+                        <div class="col">
+                            <input type="hidden"
+                                   [ngModel]="order?.orderid"
+                                   class="form-control"
+                                   name="orderid"
+                                   required>
+                        </div>
+                        <div class="col">
+                            <label for="besteller">besteller</label>
+                            <input type="text"
+                                   id="besteller"
+                                   [ngModel]="order?.besteller"
+                                   class="form-control"
+                                   name="besteller"
+                                   required>
+                        </div>
+                        <div class="col">
+                                <label for="Betaalstatus">Betaalstatus</label>
+                                <select id="Betaalstatus"
+                                        name="betaalstatus"
+                                        [ngModel]="order?.betaalstatus"
+                                        class="btn dropdown-toggle "
+                                        data-style="border: 1px solid black">
+                                    <option value="true">betaald</option>
+                                    <option value="false">niet betaald</option>
+                                </select>
+                        </div>
+                        <div class="col">
+                            <label for="afleverdatum">afleverdatum</label>
+                            <input type="date"
+                                   id="afleverdatum"
+                                   [ngModel]="order?.datum"
+                                   class="form-control"
+                                   name="datum"
+                                   required>
+                        </div>
+                        <div class="col">
+                            <div class="col">
+                                <label for="vorderstatus">vorderstatus</label>
+                                <select id="vorderstatus"
+                                        name="vorderstatus"
+                                        [ngModel]="order?.vorderstatus"
+                                        class="btn dropdown-toggle "
+                                        data-style="border: 1px solid black">
+                                    <option value="true">klaar</option>
+                                    <option value="false">Nog niet klaar</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Opslaan</label><br>
+                            <a (click)="onUpdate(f)">Bewerk</a>
+                        </div>
+                    </div>
+                </form>
+
+                <button class="btn btn-primary float-right" (click)="hidebewerkModal()">Terug</button>
+            </div>
+        </div>
+    </div>
+</div>
+

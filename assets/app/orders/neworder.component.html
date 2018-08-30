@@ -1,0 +1,94 @@
+<div>
+    <p>Nieuwe bestelling toevoegen</p>
+    <form (ngSubmit)="saveOrder(ngForm)" #ngForm="ngForm" ngNativeValidate>
+        <div class="form-group">
+            <label for="besteller">Besteller: </label>
+            <input type="text"
+                   id="besteller"
+                   [ngModel]="order?.besteller"
+                   class="form-control"
+                   placeholder="bv. Jesse Viskens"
+                   name="besteller"
+                   required/>
+        </div>
+        <div class="form-group">
+            <label for="datum">Datum:</label>
+            <input type="date"
+                   id="datum"
+                   [ngModel]="order?.datum"
+                   class="form-control"
+                   placeholder="bv. 12/12/2018"
+                   name="datum"
+                   required/>
+        </div>
+        <div class="form-group radio">
+            <label for="betaald">Heeft reeds betaald:</label>
+            <select id="betaald" name="betaalstatus" [ngModel]="order?.betaalstatus" class="form-control" required>
+                <option value="Ja">Ja</option>
+                <option value="Nee">Nee</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary float-left" [routerLink]="['/orders']">Annuleren</button>
+        <button type="submit" class="btn btn-outline-success float-right">Voeg toe</button>
+    </form>
+</div>
+<div>
+    <h2>De bestelling</h2>
+    <form #f="ngForm" ngNativeValidate>
+        <div class="form-row">
+            <div class="col">
+                <label for="beschrijving">Productnaam</label>
+                <input type="text"
+                       id="beschrijving"
+                       [ngModel]="orderitem?.naam"
+                       class="form-control"
+                       name="naam"
+                       required>
+            </div>
+            <div class="col">
+                <label for="aantal">Aantal</label>
+                <input type="number"
+                       id="aantal"
+                       pattern="[0-9]+([\.,][0-9]+)?"
+                       [ngModel]="orderitem?.aantal"
+                       class="form-control"
+                       name="aantal"
+                       required>
+            </div>
+            <div class="col">
+                <label for="prijs">eenheidsprijs</label>
+                <input type="number"
+                       id="prijs"
+                       pattern="[0-9]+([\.,][0-9]+)?"
+                       step="0.01"
+                       [ngModel]="orderitem?.eenheidsprijs"
+                       class="form-control"
+                       name="eenheidsprijs"
+                       required>
+            </div>
+            <div class="col">
+                <label>Opslaan</label><br>
+                <a (click)="saveOrderItem(f)"><i class="material-icons">voeg toe</i></a>
+            </div>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+        <th>#</th>
+        <th>Naam product</th>
+        <th>Aantal</th>
+        <th>Eenheidsprijs</th>
+        <th>Totaalprijs</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of orderItemsFilter">
+            <td>{{item.orderid}}</td>
+            <td>{{item.naam}}</td>
+            <td>{{item.aantal}}</td>
+            <td>{{item.eenheidsprijs}}</td>
+            <td>{{item.totaalprijs}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

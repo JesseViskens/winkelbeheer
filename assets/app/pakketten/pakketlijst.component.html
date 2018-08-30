@@ -1,0 +1,136 @@
+<h1>overzicht</h1>
+<table class="table">
+    <tr>
+        <th>naam</th>
+        <th>totaalprijs</th>
+        <th>korting</th>
+        <th>details</th>
+        <th>edit</th>
+        <th>delete</th>
+    </tr>
+    <tr *ngFor="let pakket of pakketten">
+            <td>{{pakket.naam}}</td>
+            <td>{{pakket.totaalprijs}} euro</td>
+            <td>{{pakket.korting}} euro</td>
+            <td><a class="btn btn-primary" (click)="showDetailModal(pakket)">details</a></td>
+            <td><a class="btn btn-warning" (click)="showEditModal(pakket)">edit</a></td>
+            <td><a (click)="onDelete(pakket)" class="btn btn-danger">delete</a></td>
+
+    </tr>
+</table>
+<div bsModal #editModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myeditModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Pakket bewerken</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideEditModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="onEdit(ngForm)" #ngForm="ngForm" ngNativeValidate>
+                    <div class="form-group">
+                        <input type="hidden"
+                               id="id"
+                               [ngModel]="pakket?.id"
+                               class="form-control"
+                               name="id"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="naamEdit">Pakketnaam: </label>
+                        <input type="text"
+                               id="naamEdit"
+                               [ngModel]="pakket?.naam"
+                               class="form-control"
+                               placeholder="bv. visschotel voor 2"
+                               name="naam"
+                               required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="prijsEdit">totaalprijs:</label>
+                        <input type="number"
+                               id="prijsEdit"
+                               [ngModel]="pakket?.totaalprijs"
+                               class="form-control"
+                               placeholder="bv. 12.25"
+                               min="0"
+                               step=".01"
+                               name="totaalprijs"
+                               required/>
+                        euro
+                    </div>
+                    <div class="form-group">
+                        <label for="kortingEdit">korting (in euro):</label>
+                        <input type="number"
+                               id="kortingEdit"
+                               [ngModel]="pakket?.korting"
+                               placeholder="bv. 9.52"
+                               min="0"
+                               class="form-control"
+                               name="korting"
+                               required/>
+                    </div>
+                    <div for="pakketid"class="form-group">
+                        <input type="hidden"
+                               id="pakketid"
+                               [ngModel]="pakket?.pakketid"
+                               placeholder="bv. 6"
+                               min="0"
+                               class="form-control"
+                               name="pakketid"
+                               required/>
+                    </div>
+
+                    <button class="float-left btn btn-primary" (click)="hideEditModal()">Annuleer</button>
+                    <button type="submit" class="btn btn-outline-success float-right">Sla op</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #detailModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mydetailModal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Pakket bekijken</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideDetailModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>Naam:</td>
+                        <td>{{pakket.naam}}</td>
+                    </tr>
+                    <tr>
+                        <td>totaalprijs</td>
+                        <td>{{pakket.totaalprijs}}€</td>
+                    </tr>
+                    <tr>
+                        <td>korting</td>
+                        <td>{{pakket.korting}}</td>
+                    </tr>
+                </table>
+                <h1>bevat volgende items:</h1>
+
+                <table class="table">
+                    <tr>
+                        <th>Naam</th>
+                        <th>Aantal</th>
+                        <th>verwijder van dit pakket</th>
+                    </tr>
+                    <tr *ngFor="let pakketItem of pakketItemsFilter">
+                        <td>{{pakketItem.naam}}</td>
+                        <td>{{pakketItem.aantal}}</td>
+                        <td (click)="onDeletePakketItem(pakketItem)">x</td>
+                    </tr>
+                </table>
+                    <button (click)="hideDetailModal()" class="btn btn-outline-success float-right">terug</button>
+            </div>
+        </div>
+    </div>
+</div>

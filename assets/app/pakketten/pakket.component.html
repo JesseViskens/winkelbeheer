@@ -1,0 +1,21 @@
+<div>
+    <h1>bestaande pakketen</h1>
+    <p>hier kan je de productmanden vinden. Meerdere producten die samen verkocht worden (met eventueel korting) kan je hier vinden</p>
+</div>
+<h1>Pakketen</h1>
+
+<div class="row">
+    <div class="col-4">
+        <ul style="background-color: #e3f2fd;" class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['nieuw']">Nieuw pakket maken</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['lijst']">Bestaande pakketten</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-8">
+        <router-outlet></router-outlet>
+    </div>
+</div>

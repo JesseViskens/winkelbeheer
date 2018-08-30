@@ -1,0 +1,44 @@
+<form (ngSubmit)="onAdd(ngForm)" #ngForm="ngForm" ngNativeValidate>
+    <div class="form-group">
+        <label for="naam">Leveranciersnaam: </label>
+        <input type="text"
+               id="naam"
+               [ngModel]="leverancier?.naam"
+               class="form-control"
+               placeholder="bv. Kippenwinkel"
+               name="naam"
+               required/>
+    </div>
+    <div class="form-group">
+        <label for="datum">Datum:</label>
+        <input type="date"
+               id="datum"
+               [ngModel]="leverancier?.datum"
+               class="form-control"
+               name="datum"
+               required/>
+    </div>
+    <div class="form-group">
+        <label for="bedrag">Bedrag (in euro):</label>
+        <input type="number"
+               id="bedrag"
+               [ngModel]="leverancier?.bedrag"
+               placeholder="bv. 9.52"
+               class="form-control"
+               name="bedrag"
+               step=".01"
+               required/>
+    </div>
+    <div class="form-group">
+        <label for="beschrijving">Beschrijving (optioneel):</label>
+        <input type="text"
+               id="beschrijving"
+               [ngModel]="leverancier?.beschrijving"
+               placeholder="zet hier de beschrijving"
+               class="form-control"
+               name="beschrijving"
+        />
+    </div>
+    <button type="submit" class="btn btn-outline-success float-right">Voeg toe</button>
+
+</form>

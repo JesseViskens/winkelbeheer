@@ -1,0 +1,122 @@
+<h1>Leverdagen</h1>
+<table>
+    <tr>
+        <th>Leverdatum</th>
+        <th>ID</th>
+        <th>Leverancier</th>
+        <th>Te betalen</th>
+        <th>beschrijving</th>
+        <th>bewerk</th>
+        <th>verwijderen</th>
+    </tr>
+    <tr *ngFor="let leverancier of leveranciers">
+        <td>{{leverancier.datum}}</td>
+        <td>{{leverancier.id}}</td>
+        <td>{{leverancier.naam}}</td>
+        <td>{{leverancier.bedrag}}€</td>
+        <td>
+            <div *ngIf="leverancier.beschrijving;then welLeverancier else geenLeverancier"></div>
+            <ng-template #welLeverancier>{{leverancier.beschrijving}}</ng-template>
+            <ng-template #geenLeverancier>Geen beschrijving</ng-template>
+        </td>
+        <td>
+            <button class="btn btn-warning" (click)="showbewerkModal(leverancier)">edit</button>
+        </td>
+        <td>
+            <button class="btn btn-danger" (click)="showverwijderModal(leverancier)">delete</button>
+        </td>
+
+    </tr>
+
+</table>
+<div bsModal #bewerkModal="bs-modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myeditModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Product bewerken</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hidebewerkModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="onEdit(ngForm)" #ngForm="ngForm" ngNativeValidate>
+                    <div class="form-group">
+                        <input type="text"
+                               id="id"
+                               [ngModel]="leverancier?.id"
+                               class="form-control"
+                               name="id"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="naam">Leveranciersnaam: </label>
+                        <input type="text"
+                               id="naam"
+                               [ngModel]="leverancier?.naam"
+                               class="form-control"
+                               placeholder="bv. Kippenwinkel"
+                               name="naam"
+                               required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="datum">Datum:</label>
+                        <input type="date"
+
+                               id="datum"
+                               [ngModel]="leverancier?.datum"
+                               class="form-control"
+                               name="datum"
+                               required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="bedrag">Bedrag (in euro):</label>
+                        <input type="number"
+                               id="bedrag"
+                               [ngModel]="leverancier?.bedrag"
+                               placeholder="bv. 9.52"
+                               class="form-control"
+                               name="bedrag"
+                               step=".01"
+                               required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="beschrijving">Beschrijving (optioneel):</label>
+                        <input type="text"
+                               id="beschrijving"
+                               [ngModel]="leverancier?.beschrijving"
+                               placeholder="zet hier de beschrijving"
+                               class="form-control"
+                               name="beschrijving"
+                        />
+                    </div>
+                    <button class="float-left btn btn-primary" (click)="hidebewerkModal()">Annuleer</button>
+                    <button type="submit" class="btn btn-outline-success float-right">Sla op</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #verwijderModal="bs-modal" class="modal fade " tabindex="-1" role="dialog"
+     aria-labelledby="myverwijderModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Opgelet!</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideverwijderModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label>Bent u zeker dat u deze leverancier wil verwijderen ? </label>
+                <label><i>Opgelet: Na dat u op verwijder gedrukt hebt is er geen weg terug en moet u deze leverancier opnieuw
+                    aanmaken.</i></label>
+            </div>
+            <div class="modal-footer">
+                <button class="float-left btn btn-primary" (click)="hideverwijderModal()">Annuleer</button>
+                <button class="float-right btn btn-danger" (click)="onDelete(leverancier)">Verwijder</button>
+            </div>
+        </div>
+    </div>
+</div>
